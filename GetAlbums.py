@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup # Module to sort through the html
 import lxml # Module to parse through the html for BeautifulSoup
-import urllib2 # Gets html
+# import urllib2 # Gets html
 import os # Searching through computer directory
 import io
 from datetime import datetime # For timestamps
@@ -14,7 +14,7 @@ with open('page.html', 'r') as file:
     data = file.read()
 
 soup = BeautifulSoup(data, "lxml") # Using lxml parser
-albums = soup.select('div[class*="view photo-list-album-view "]')
+albums = soup.select('div[class*="view photo-list-album-view "]') # Using CSS selector
 
 data = []
 
@@ -39,7 +39,7 @@ for album in albums:
 
 
 ################   Output to JS File   ################
-print "{0} albums found".format(data.count)
+print "{0} albums found".format(len(data))
 try:
     with io.FileIO(outputFileName, 'w') as outputFile: # Writing file and creating file if it doesn't exist
         # print "// Last updated: " + datetime.now().strftime('%Y-%m-%d %H:%M:%S')
