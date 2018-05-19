@@ -5,7 +5,7 @@ import os # Searching through computer directory
 import io
 from datetime import datetime # For timestamps
 
-outputFileName = "flickrData.js"
+outputFileName = "flickrAlbumData.js"
 blacklist = ["Design", "Roaracle 2015-2016 T-Shirt Contest"]
 
 ################   Get image urls from source   ################
