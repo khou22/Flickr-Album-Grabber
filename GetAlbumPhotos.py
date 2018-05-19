@@ -75,13 +75,18 @@ class element_by_class_has_href(object):
             return False
 
 ################   Webscrape Flickr   ################
+print("// Last updated: " + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "") # Timestamp
+print("const albumData = [") # Open array
+
 while (hasNextImage):
     # Get the image ID from the URL
     currentURL = driver.current_url # Gets the ID of the image
     # print("Image URL: %s" % currentURL)
 
     # Get the image URL source
+    time.sleep(1)
     image = driver.find_element_by_class_name("main-photo").get_attribute("src")
+    time.sleep(1)
     # print("Image source: %s" % image)
 
     # Get meta data container
@@ -95,6 +100,12 @@ while (hasNextImage):
 
     # Log to master data set
     data.append({ "url": currentURL, "image": image, "date": isoDate })
+
+    print("  {")
+    print("    \"image\": \"" + image + "\",")
+    print("    \"id\": \"" + currentURL + "\",")
+    print("    \"date\": \"" + isoDate + "\"")
+    print("  },")
 
     # time.sleep(2) # To allow page loads
     try:
@@ -114,6 +125,8 @@ while (hasNextImage):
         driver.get(nextURL)
 
 driver.close()
+print("];\n") # Close array
+
 print("%d image(s) found" % len(data))
 
 ################   Output to JS File   ################
@@ -123,7 +136,7 @@ print("Writing to file %s" % OUTPUT_FILE)
 try:
     with io.FileIO(OUTPUT_FILE, 'w') as outputFile: # Writing file and creating file if it doesn't exist
         outputFile.write("// Last updated: " + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "\n") # Timestamp
-        outputFile.write("const vscoData = [\n") # Open array
+        outputFile.write("const albumData = [\n") # Open array
 
         # Cycle through data
         for image in data:
